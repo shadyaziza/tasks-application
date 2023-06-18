@@ -15,7 +15,7 @@ import '../pages/projects/_view/projects_page.dart';
 final routerProvider = Provider<GoRouter>((ref) {
   final router = AsyncRouterNotifier(ref);
   return GoRouter(
-    initialLocation: AppRouter.kRoutePathTasks,
+    initialLocation: AppRouter.kRoutePathTaskDetails,
     navigatorKey: AppRouter.rootNavigationKey,
     debugLogDiagnostics: true,
     refreshListenable: router,
@@ -34,6 +34,12 @@ class AsyncRouterNotifier extends ChangeNotifier {
   List<RouteBase> get _routes => AppRouter.routes;
 
   FutureOr<String?> _redirect(BuildContext context, GoRouterState state) {
+    /// for the intial navigation because once we start the app
+    /// we view tasks which in turn view the first task
+    ///
+    if (state.location.contains('taskId')) {
+      return '/tasks/1';
+    }
     return null;
   }
 }
@@ -44,7 +50,9 @@ class AppRouter {
 
   /// TODO: 4. Add a side menu or navigation bar with 3 pages (Tasks, Projects and Teams).
   ///
-  static const kRoutePathTaskDetails = '/:taskId';
+  /// TODO: 5. Use _getTasks_ method from _network_service.dart_ file to get data for the _Tasks_ page.
+  ///
+  static const kRoutePathTaskDetails = '/tasks/:taskId';
   static const kRouteNameTaskDetails = 'TaskDetailsNamedRoute';
 
   static const kRoutePathProjects = '/projects';
@@ -59,7 +67,7 @@ class AppRouter {
       GlobalKey<NavigatorState>(debugLabel: 'TasksShellKey');
   static List<RouteBase> routes = [
     ShellRoute(
-      navigatorKey: mainAppShellKey,
+      navigatorKey: tasksShellKey,
       routes: [
         ShellRoute(
             builder: (context, state, child) {
@@ -69,11 +77,11 @@ class AppRouter {
             },
             routes: [
               GoRoute(
-                path: kRoutePathTasks,
-                name: kRouteNameTasks,
+                path: kRoutePathTaskDetails,
+                name: kRouteNameTaskDetails,
                 builder: (context, state) {
                   final int taskId =
-                      int.tryParse(state.pathParameters['taskId'] ?? '1')!;
+                      int.tryParse(state.pathParameters['taskId'] ?? '1') ?? 1;
 
                   return TasksDetailsPage(
                     taskId: taskId,

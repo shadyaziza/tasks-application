@@ -19,8 +19,8 @@ In this programming assignment, you’ll create a simple web application in Flut
 - ~~First page contains a list of tasks. When one of the items is pressed, a detailed view is displayed. Every list item should show _Title_ and _Date_. The detailed view should also present _Description_ text.~~
 - ~~_Projects_ and _Teams_ pages should display only texts with page names.~~
 
-5. Use _getTasks_ method from _network_service.dart_ file to get data for the _Tasks_ page.
-6. Use the Riverpod package to display the list of tasks.
+5. ~~Use _getTasks_ method from _network_service.dart_ file to get data for the _Tasks_ page.~~
+6. ~~Use the Riverpod package to display the list of tasks.~~
 7. Make the application suitable for internationalization.
 
 **Optional**: Add support for changing language (dropdown with English and Arabic languages).
