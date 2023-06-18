@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_list_app/common/app_style.dart';
 
 class AppNavigationBar extends StatelessWidget {
@@ -34,14 +35,20 @@ class _NavigationBarListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Text(
-        item.name,
-        style: TextStyle(
-          color: AppStyle.lightTextColor,
-          fontSize: 18,
+    return InkWell(
+      onTap: () {
+        /// TODO: 3. Implement a navigation (using go_router package) that supports changing urls and back button in the browser.
+        context.go(item.url);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Text(
+          item.name,
+          style: TextStyle(
+            color: AppStyle.lightTextColor,
+            fontSize: 18,
+          ),
         ),
       ),
     );
@@ -50,9 +57,9 @@ class _NavigationBarListItem extends StatelessWidget {
 
 final navigationBarItems = [
   // TODO: labels should be in app localization file
-  NavigationBarItem(name: 'Tasks', url: 'tasks'),
-  NavigationBarItem(name: 'Projects', url: 'projects'),
-  NavigationBarItem(name: 'Teams', url: 'teams'),
+  NavigationBarItem(name: 'Tasks', url: '/tasks'),
+  NavigationBarItem(name: 'Projects', url: '/projects'),
+  NavigationBarItem(name: 'Teams', url: '/teams'),
 ];
 
 class NavigationBarItem {
