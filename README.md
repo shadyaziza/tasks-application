@@ -21,8 +21,8 @@ In this programming assignment, you’ll create a simple web application in Flut
 
 5. ~~Use _getTasks_ method from _network_service.dart_ file to get data for the _Tasks_ page.~~
 6. ~~Use the Riverpod package to display the list of tasks.~~
-7. Make the application suitable for internationalization.
+7. ~~Make the application suitable for internationalization.~~
 
-**Optional**: Add support for changing language (dropdown with English and Arabic languages).
+**Optional**: ~~Add support for changing language (dropdown with English and Arabic languages).~~
 
 **Optional**: Make the application responsive.
