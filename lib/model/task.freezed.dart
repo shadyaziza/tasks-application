@@ -22,7 +22,9 @@ Task _$TaskFromJson(Map<String, dynamic> json) {
 mixin _$Task {
   String? get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  DateTime? get dateTime => throw _privateConstructorUsedError;
+  DateTime? get dateTime =>
+      throw _privateConstructorUsedError; // TODO :  Add Description property to the Task class.
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +36,8 @@ abstract class $TaskCopyWith<$Res> {
   factory $TaskCopyWith(Task value, $Res Function(Task) then) =
       _$TaskCopyWithImpl<$Res, Task>;
   @useResult
-  $Res call({String? id, String? title, DateTime? dateTime});
+  $Res call(
+      {String? id, String? title, DateTime? dateTime, String? description});
 }
 
 /// @nodoc
@@ -53,6 +56,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? id = freezed,
     Object? title = freezed,
     Object? dateTime = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -67,6 +71,10 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -77,7 +85,8 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       __$$_TaskCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? id, String? title, DateTime? dateTime});
+  $Res call(
+      {String? id, String? title, DateTime? dateTime, String? description});
 }
 
 /// @nodoc
@@ -92,6 +101,7 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
     Object? id = freezed,
     Object? title = freezed,
     Object? dateTime = freezed,
+    Object? description = freezed,
   }) {
     return _then(_$_Task(
       id: freezed == id
@@ -106,6 +116,10 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -113,7 +127,11 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
 /// @nodoc
 @JsonSerializable()
 class _$_Task implements _Task {
-  const _$_Task({this.id, this.title, this.dateTime});
+  const _$_Task(
+      {required this.id,
+      required this.title,
+      required this.dateTime,
+      required this.description});
 
   factory _$_Task.fromJson(Map<String, dynamic> json) => _$$_TaskFromJson(json);
 
@@ -123,10 +141,13 @@ class _$_Task implements _Task {
   final String? title;
   @override
   final DateTime? dateTime;
+// TODO :  Add Description property to the Task class.
+  @override
+  final String? description;
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, dateTime: $dateTime)';
+    return 'Task(id: $id, title: $title, dateTime: $dateTime, description: $description)';
   }
 
   @override
@@ -137,12 +158,15 @@ class _$_Task implements _Task {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.dateTime, dateTime) ||
-                other.dateTime == dateTime));
+                other.dateTime == dateTime) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, dateTime);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, dateTime, description);
 
   @JsonKey(ignore: true)
   @override
@@ -160,9 +184,10 @@ class _$_Task implements _Task {
 
 abstract class _Task implements Task {
   const factory _Task(
-      {final String? id,
-      final String? title,
-      final DateTime? dateTime}) = _$_Task;
+      {required final String? id,
+      required final String? title,
+      required final DateTime? dateTime,
+      required final String? description}) = _$_Task;
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$_Task.fromJson;
 
@@ -172,6 +197,8 @@ abstract class _Task implements Task {
   String? get title;
   @override
   DateTime? get dateTime;
+  @override // TODO :  Add Description property to the Task class.
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$$_TaskCopyWith<_$_Task> get copyWith => throw _privateConstructorUsedError;
