@@ -1,5 +1,7 @@
 {
-    "tasksApplication":"Tasks App"
+    "tasksApplication":"Tasks App",
+    "teams":"Teams",
+    "projects":"Projects"
     
   
 }

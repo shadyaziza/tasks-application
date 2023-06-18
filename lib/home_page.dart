@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_list_app/app_navigation_bar.dart';
+import 'package:task_list_app/core/utils.dart';
 import 'package:task_list_app/localization/change_locale_widget.dart';
 import 'package:task_list_app/localization/providers.dart';
 
@@ -21,21 +22,45 @@ class HomePage extends ConsumerWidget {
     ///
     final loc = ref.watch(appLocalizationsControllerPod);
     return Scaffold(
+      drawer: Responsive.isMobile(context) ? const AppDrawer() : null,
       appBar: AppBar(
         title: Text(loc.tasksApplication),
-        actions: [
+        actions: const [
           ChangeLocaleWidget(),
         ],
       ),
-      body: Row(
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 200, maxWidth: 300),
-            child: AppNavigationBar(),
-          ),
-          Expanded(child: child),
-        ],
+      body: ResponsiveBody(
+        child: child,
       ),
+    );
+  }
+}
+
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const AppNavigationBar();
+  }
+}
+
+class ResponsiveBody extends StatelessWidget {
+  const ResponsiveBody({super.key, required this.child});
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    if (Responsive.isMobile(context)) {
+      return child;
+    }
+    return Row(
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 200, maxWidth: 300),
+          child: const AppNavigationBar(),
+        ),
+        Expanded(child: child),
+      ],
     );
   }
 }

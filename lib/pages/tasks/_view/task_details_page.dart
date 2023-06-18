@@ -43,19 +43,19 @@ class TasksDetailsPage extends ConsumerWidget {
                 'Task $taskId',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              Divider(
+              const Divider(
                 color: AppStyle.darkBlue,
                 height: 16,
                 thickness: 2,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               Text(task!.formatedDateTime,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Colors.grey.shade600,
                       )),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Text(
@@ -68,7 +68,7 @@ class TasksDetailsPage extends ConsumerWidget {
           );
         },
         error: (error, stackTrace) => Text('$error \n $stackTrace'),
-        loading: () => CircularProgressIndicator.adaptive(),
+        loading: () => const CircularProgressIndicator.adaptive(),
       ),
     );
   }

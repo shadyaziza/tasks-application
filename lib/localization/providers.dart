@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:caching/utility.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// ignore: depend_on_referenced_packages
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class _LocaleObserver extends WidgetsBindingObserver {

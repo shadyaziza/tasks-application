@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -37,7 +39,7 @@ class AsyncRouterNotifier extends ChangeNotifier {
     /// for the intial navigation because once we start the app
     /// we view tasks which in turn view the first task
     ///
-    if (state.location.contains('taskId')) {
+    if (state.location.contains('taskId') || state.location == '/tasks') {
       return '/tasks/1';
     }
     return null;
@@ -93,14 +95,14 @@ class AppRouter {
           path: kRoutePathProjects,
           name: kRouteNameProjects,
           builder: (context, state) {
-            return ProjectsPage();
+            return const ProjectsPage();
           },
         ),
         GoRoute(
           path: kRoutePathTeams,
           name: kRouteNameTeams,
           builder: (context, state) {
-            return TeamsPage();
+            return const TeamsPage();
           },
         )
       ],

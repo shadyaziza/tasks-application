@@ -2,7 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/common/app_style.dart';
-import 'package:task_list_app/core/router.dart';
+
+import 'package:task_list_app/core/utils.dart';
+
+/// I am using this now instead of
+/// ```
+/// final currentLocation = ref.watch(
+///      routerProvider.select(
+///       (value) => value.location,
+///      ),
+///    );
+
+/// ```
+/// because I noticed wierd behavior with this approach
+///
+final currentSelectedLocationProvider =
+    NotifierProvider<CurrentSelectedLocationProviderNotifier, String>(() {
+  return CurrentSelectedLocationProviderNotifier();
+});
+
+class CurrentSelectedLocationProviderNotifier extends Notifier<String> {
+  @override
+  String build() {
+    return '/tasks';
+  }
+
+  void setCurrentLocation(String url) {
+    state = url;
+  }
+}
 
 class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({Key? key}) : super(key: key);
@@ -17,7 +45,7 @@ class AppNavigationBar extends StatelessWidget {
         itemBuilder: (context, index) => _NavigationBarListItem(
           item: navigationBarItems[index],
         ),
-        separatorBuilder: (context, index) => Divider(
+        separatorBuilder: (context, index) => const Divider(
           color: AppStyle.mediumBlue,
           height: 1,
           endIndent: 16,
@@ -37,29 +65,33 @@ class _NavigationBarListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentLocation = ref.watch(
-      routerProvider.select(
-        (value) => value.location,
-      ),
-    );
+    final currentLocation = ref.watch(currentSelectedLocationProvider);
+
     return InkWell(
       onTap: () {
         /// TODO: 3. Implement a navigation (using go_router package) that supports changing urls and back button in the browser.
         context.go(item.url);
+        ref
+            .read(currentSelectedLocationProvider.notifier)
+            .setCurrentLocation(item.url);
+
+        if (Responsive.isMobile(context)) {
+          /// in case of mobile view, close the drawer upon selection
+          Navigator.of(context).pop();
+        }
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
             16,
           ),
-          color:
-              currentLocation.contains(item.url) ? AppStyle.orangeColor : null,
+          color: currentLocation == item.url ? AppStyle.orangeColor : null,
         ),
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Text(
           item.name,
-          style: TextStyle(
+          style: const TextStyle(
             color: AppStyle.lightTextColor,
             fontSize: 18,
           ),

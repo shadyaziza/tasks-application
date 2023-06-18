@@ -1,5 +1,7 @@
 {
-    "tasksApplication":"작업 응용 프로그램"
+    "tasksApplication":"작업 응용 프로그램",
+    "teams":"팀",
+    "projects":"프로젝트"
     
   
 }

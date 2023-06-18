@@ -1,8 +1,11 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/common/app_style.dart';
 import 'package:task_list_app/core/router.dart';
+import 'package:task_list_app/core/utils.dart';
 
 import '../../../model/task.dart';
 import '../../../service/network_service.dart';
@@ -29,28 +32,52 @@ class TasksPage extends ConsumerWidget {
     final tasks = ref.watch(tasksProvider);
     return Center(
       child: tasks.when(
-        data: (tasks) => Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: 500,
-                  maxWidth: 650,
-                ),
-                child: _TasksList(
-                  tasks: tasks,
-                ),
-              ),
-              SizedBox(
-                width: 16,
-              ),
-              Expanded(child: child),
-            ],
-          ),
+        data: (tasks) => ResponiveTasks(
+          tasks: tasks,
+          child: child,
         ),
         error: (error, stackTrace) => Text('$error \n $stackTrace'),
-        loading: () => CircularProgressIndicator.adaptive(),
+        loading: () => const CircularProgressIndicator.adaptive(),
+      ),
+    );
+  }
+}
+
+class ResponiveTasks extends StatelessWidget {
+  const ResponiveTasks({
+    super.key,
+    required this.child,
+    required this.tasks,
+  });
+  final Widget child;
+  final List<Task> tasks;
+  @override
+  Widget build(BuildContext context) {
+    if (Responsive.isMobile(context)) {
+      return _TasksMobileView(
+        tasks: tasks,
+        child: child,
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              minWidth: 500,
+              maxWidth: 650,
+            ),
+            child: _TasksList(
+              tasks: tasks,
+            ),
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+          Expanded(child: child),
+        ],
       ),
     );
   }
@@ -72,12 +99,12 @@ class _TasksList extends ConsumerWidget {
           'Tasks',
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        Divider(
+        const Divider(
           color: AppStyle.darkBlue,
           height: 16,
           thickness: 2,
         ),
-        SizedBox(
+        const SizedBox(
           height: 32,
         ),
         Expanded(
@@ -112,6 +139,54 @@ class _TasksList extends ConsumerWidget {
             },
           ),
         )
+      ],
+    );
+  }
+}
+
+class _TasksMobileView extends ConsumerStatefulWidget {
+  const _TasksMobileView({super.key, required this.tasks, required this.child});
+  final List<Task> tasks;
+  final Widget child;
+
+  @override
+  ConsumerState<_TasksMobileView> createState() => _TasksMobileViewState();
+}
+
+class _TasksMobileViewState extends ConsumerState<_TasksMobileView> {
+  late Task selectedTask;
+  @override
+  void initState() {
+    selectedTask = widget.tasks.firstWhere((t) => t.id == '1');
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        DropdownButton<Task>(
+            value: selectedTask,
+            items: widget.tasks
+                .map(
+                  (t) => DropdownMenuItem<Task>(
+                    value: t,
+                    child: Text(
+                      'Task ${t.id}',
+                    ),
+                  ),
+                )
+                .toList(),
+            onChanged: (t) {
+              context.goNamed(AppRouter.kRouteNameTaskDetails,
+                  pathParameters: {'taskId': t!.id!});
+
+              /// needed to update ephemeral state
+              setState(() {
+                selectedTask = t;
+              });
+            }),
+        Expanded(child: widget.child)
       ],
     );
   }

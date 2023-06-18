@@ -1,5 +1,7 @@
 {
-    "tasksApplication":"تطبيق المهام"
+    "tasksApplication":"تطبيق المهام",
+    "teams":"الفرق",
+    "projects":"المشاريع"
     
   
 }
