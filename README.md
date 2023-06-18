@@ -25,4 +25,4 @@ In this programming assignment, you’ll create a simple web application in Flut
 
 **Optional**: ~~Add support for changing language (dropdown with English and Arabic languages).~~
 
-**Optional**: Make the application responsive.
+**Optional**: ~~Make the application responsive.~~
