@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/home_page.dart';
+import 'package:task_list_app/pages/tasks/_view/task_details_page.dart';
 import 'package:task_list_app/pages/tasks/_view/tasks_page.dart';
 import 'package:task_list_app/pages/teams/_view/teams_page.dart';
 
@@ -40,6 +41,12 @@ class AsyncRouterNotifier extends ChangeNotifier {
 class AppRouter {
   static const kRoutePathTasks = '/tasks';
   static const kRouteNameTasks = 'TaskNamedRoute';
+
+  /// TODO: 4. Add a side menu or navigation bar with 3 pages (Tasks, Projects and Teams).
+  ///
+  static const kRoutePathTaskDetails = '/:taskId';
+  static const kRouteNameTaskDetails = 'TaskDetailsNamedRoute';
+
   static const kRoutePathProjects = '/projects';
   static const kRouteNameProjects = 'ProjectsNamedRoute';
   static const kRoutePathTeams = '/teams';
@@ -54,13 +61,26 @@ class AppRouter {
     ShellRoute(
       navigatorKey: mainAppShellKey,
       routes: [
-        GoRoute(
-          path: kRoutePathTasks,
-          name: kRouteNameTasks,
-          builder: (context, state) {
-            return TasksPage();
-          },
-        ),
+        ShellRoute(
+            builder: (context, state, child) {
+              return TasksPage(
+                child: child,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: kRoutePathTasks,
+                name: kRouteNameTasks,
+                builder: (context, state) {
+                  final int taskId =
+                      int.tryParse(state.pathParameters['taskId'] ?? '1')!;
+
+                  return TasksDetailsPage(
+                    taskId: taskId,
+                  );
+                },
+              ),
+            ]),
         GoRoute(
           path: kRoutePathProjects,
           name: kRouteNameProjects,

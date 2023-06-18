@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 part 'task.freezed.dart';
 part 'task.g.dart';
@@ -14,4 +15,11 @@ class Task with _$Task {
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
+}
+
+/// Extension to convert data on [Task]
+extension TaskX on Task {
+  String get formatedDateTime {
+    return '${DateFormat.Md().format(dateTime!)}, ${DateFormat.Hm().format(dateTime!)}';
+  }
 }

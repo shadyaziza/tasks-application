@@ -40,12 +40,18 @@ class NetworkService {
           title: 'Plan work for next week',
           dateTime: now,
           description: _desc),
-      Task(id: '6', title: 'Order lunch', dateTime: now, description: _desc),
       Task(
-          id: '7',
-          title: 'Create an invoice for last month',
-          dateTime: now,
-          description: _desc),
+        id: '6',
+        title: 'Order lunch',
+        dateTime: now,
+        description: _desc,
+      ),
+      Task(
+        id: '7',
+        title: 'Create an invoice for last month',
+        dateTime: now,
+        description: _desc,
+      ),
     ];
   }
 }

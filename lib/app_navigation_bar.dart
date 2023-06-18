@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/common/app_style.dart';
+import 'package:task_list_app/core/router.dart';
 
 class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({Key? key}) : super(key: key);
@@ -26,7 +28,7 @@ class AppNavigationBar extends StatelessWidget {
   }
 }
 
-class _NavigationBarListItem extends StatelessWidget {
+class _NavigationBarListItem extends ConsumerWidget {
   const _NavigationBarListItem({
     Key? key,
     required this.item,
@@ -34,13 +36,25 @@ class _NavigationBarListItem extends StatelessWidget {
   final NavigationBarItem item;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentLocation = ref.watch(
+      routerProvider.select(
+        (value) => value.location,
+      ),
+    );
     return InkWell(
       onTap: () {
         /// TODO: 3. Implement a navigation (using go_router package) that supports changing urls and back button in the browser.
         context.go(item.url);
       },
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            16,
+          ),
+          color:
+              currentLocation.contains(item.url) ? AppStyle.orangeColor : null,
+        ),
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Text(
