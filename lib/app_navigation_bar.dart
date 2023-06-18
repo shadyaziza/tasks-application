@@ -4,6 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:task_list_app/common/app_style.dart';
 
 import 'package:task_list_app/core/utils.dart';
+import 'package:task_list_app/localization/providers.dart';
+
+final navItemsProvider = Provider((ref) {
+  final loc = ref.watch(appLocalizationsControllerPod);
+  return [
+    // TODO: labels should be in app localization file
+    NavigationBarItem(name: loc.tasks, url: '/tasks'),
+    NavigationBarItem(name: loc.projects, url: '/projects'),
+    NavigationBarItem(name: loc.teams, url: '/teams'),
+  ];
+});
 
 /// I am using this now instead of
 /// ```
@@ -32,18 +43,19 @@ class CurrentSelectedLocationProviderNotifier extends Notifier<String> {
   }
 }
 
-class AppNavigationBar extends StatelessWidget {
+class AppNavigationBar extends ConsumerWidget {
   const AppNavigationBar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final navItems = ref.watch(navItemsProvider);
     return ColoredBox(
       color: AppStyle.darkBlue,
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 64),
-        itemCount: navigationBarItems.length,
+        itemCount: navItems.length,
         itemBuilder: (context, index) => _NavigationBarListItem(
-          item: navigationBarItems[index],
+          item: navItems[index],
         ),
         separatorBuilder: (context, index) => const Divider(
           color: AppStyle.mediumBlue,
@@ -100,13 +112,6 @@ class _NavigationBarListItem extends ConsumerWidget {
     );
   }
 }
-
-final navigationBarItems = [
-  // TODO: labels should be in app localization file
-  NavigationBarItem(name: 'Tasks', url: '/tasks'),
-  NavigationBarItem(name: 'Projects', url: '/projects'),
-  NavigationBarItem(name: 'Teams', url: '/teams'),
-];
 
 class NavigationBarItem {
   final String name;
